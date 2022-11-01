@@ -1,4 +1,4 @@
-using System.Reflection.Metadata.Ecma335;
+using BlazorEcommerce.Server.Services.ProductService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Server.Controllers;
@@ -7,15 +7,17 @@ namespace Server.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-  public ProductsController(DataContext context)
+  private readonly IProductService productService;
+
+  public ProductsController(IProductService productService)
   {
-    this.context = context;
+    this.productService = productService;
   }
 
   [HttpGet]
-  public async Task<IActionResult> GetProducts()
+  public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
   {
-    var products = await context.Products.ToListAsync();
+    var products = await productService.GetProductsAsync();
 
     return Ok(products);
   }
@@ -103,5 +105,4 @@ public class ProductsController : ControllerBase
       ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/e/ee/Nintendo-Super-Famicom-Set-FL.jpg",
     }
   };
-  private readonly DataContext context;
 }
