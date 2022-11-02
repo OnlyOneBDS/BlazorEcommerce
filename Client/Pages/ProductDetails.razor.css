@@ -1,23 +1,23 @@
 .media-img {
   border-radius: 6px;
-  max-height: 200px;
-  max-width: 200px;
-  margin-bottom: 10px;
-  transition: transform .2s;
-}
-
-.media-img:hover {
-  transform: scale(1.1);
+  max-height: 500px;
+  max-width: 500px;
+  margin-bottom: 0 10px 10px 10x;
 }
 
 .media-img-wrapper {
+  max-height: 500px;
+  max-width: 500px;
   text-align: center;
-  width: 200px;
 }
 
 @media (max-width: 1023.98px) {
   .media {
     flex-direction: column;
+  }
+
+  .media-img {
+    max-width: 300px;
   }
 
   .media-img-wrapper {

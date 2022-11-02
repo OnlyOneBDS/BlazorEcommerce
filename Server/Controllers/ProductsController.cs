@@ -22,6 +22,14 @@ public class ProductsController : ControllerBase
     return Ok(products);
   }
 
+  [HttpGet("{productId}")]
+  public async Task<ActionResult<ServiceResponse<Product>>> GetProduct(int productId)
+  {
+    var product = await productService.GetProductAsync(productId);
+
+    return Ok(product);
+  }
+
   private static List<Product> Products = new List<Product>
   {
     new Product
