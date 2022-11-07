@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlazorEcommerce.Shared;
+namespace BlazorEcommerce.Shared.Models;
 
 public class Product
 {
@@ -13,6 +13,8 @@ public class Product
   public string Description { get; set; } = string.Empty;
 
   public string ImageUrl { get; set; } = string.Empty;
+
+  public bool Featured { get; set; } = false;
 
   public List<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
 

@@ -2,6 +2,8 @@ global using BlazorEcommerce.Server.Data;
 global using BlazorEcommerce.Server.Services.CategoryService;
 global using BlazorEcommerce.Server.Services.ProductService;
 global using BlazorEcommerce.Shared;
+global using BlazorEcommerce.Shared.DTOs;
+global using BlazorEcommerce.Shared.Models;
 global using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

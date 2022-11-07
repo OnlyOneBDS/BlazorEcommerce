@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace BlazorEcommerce.Server.Services.ProductService;
 
 public class ProductService : IProductService
@@ -7,6 +9,17 @@ public class ProductService : IProductService
   public ProductService(DataContext context)
   {
     this.context = context;
+  }
+
+  public async Task<ServiceResponse<List<Product>>> GetFeaturedProductsAsync()
+  {
+    return new ServiceResponse<List<Product>>
+    {
+      Data = await context.Products
+        .Include(p => p.Variants)
+        .Where(p => p.Featured)
+        .ToListAsync()
+    };
   }
 
   public async Task<ServiceResponse<List<Product>>> GetProductsAsync()
@@ -58,11 +71,25 @@ public class ProductService : IProductService
     return new ServiceResponse<List<string>> { Data = searchSuggestions };
   }
 
-  public async Task<ServiceResponse<List<Product>>> SearchProductsAsync(string searchText)
+  public async Task<ServiceResponse<ProductSearchDto>> SearchProductsAsync(string searchText, int page)
   {
-    return new ServiceResponse<List<Product>>
+    var pageResults = 2f;
+    var pageCount = Math.Ceiling((await FilterProductsAsync(searchText)).Count / pageResults);
+    var products = await context.Products
+      .Include(p => p.Variants)
+      .Where(p => p.Title.ToLower().Contains(searchText.ToLower()) || p.Description.ToLower().Contains(searchText.ToLower()))
+      .Skip((page - 1) * (int)pageResults)
+      .Take((int)pageResults)
+      .ToListAsync();
+
+    return new ServiceResponse<ProductSearchDto>
     {
-      Data = await FilterProductsAsync(searchText)
+      Data = new ProductSearchDto
+      {
+        Products = products,
+        CurrentPage = page,
+        Pages = (int)pageCount
+      }
     };
   }
 
