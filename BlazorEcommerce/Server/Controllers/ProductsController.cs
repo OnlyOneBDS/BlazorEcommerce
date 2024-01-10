@@ -1,22 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BlazorEcommerce.Server.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorEcommerce.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
-{
-  private readonly ApplicationDbContext _context;
+{  
+  private readonly IProductService _productService;
 
-  public ProductsController(ApplicationDbContext context)
+  public ProductsController(IProductService productService)
   {
-    _context = context;
+    _productService = productService;
   }
 
   [HttpGet]
-  public async Task<ActionResult<List<Product>>> GetProducts()
+  public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
   {
-    var products = await _context.Products.ToListAsync();
-    return Ok(products);
+    var result = await _productService.GetProductsAsync();
+    return Ok(result);
   }
 }

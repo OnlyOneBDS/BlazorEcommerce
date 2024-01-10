@@ -1,11 +1,15 @@
 global using BlazorEcommerce.Server.Data;
 global using BlazorEcommerce.Shared;
 global using Microsoft.EntityFrameworkCore;
+using BlazorEcommerce.Server.Services;
+using BlazorEcommerce.Server.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
