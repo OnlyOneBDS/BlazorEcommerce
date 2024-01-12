@@ -1,0 +1,41 @@
+﻿.btn-delete {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 12px;
+  padding: 0;
+}
+
+.btn-delete:hover {
+  text-decoration: underline;
+}
+
+.cart-product-price {
+  font-weight: 600;
+  text-align: right;
+}
+
+.container {
+  display: flex;
+  padding: 6px;
+}
+
+.image {
+  max-height: 150px;
+  max-width: 150px;
+  padding: 6px;
+}
+
+.image-wrapper {
+  text-align: center;
+  width: 150px;
+}
+
+.input-quantity {
+  width: 70px;
+}
+
+.name {
+  flex-grow: 1;
+  padding: 6px;
+}

@@ -1,0 +1,33 @@
+﻿.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.featured-product {
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  margin: 10px;
+  max-width: 200px;
+  padding: 10px;
+  text-align: center
+}
+
+img {
+  border-radius: 6px;
+  margin-bottom: 10px;
+  max-height: 200px;
+  max-width: 200px;
+  transition: transform .2s;
+}
+
+img:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+@media (max-width: 1023.98px) {
+  .container {
+    justify-content: flex-start;
+  }
+}
