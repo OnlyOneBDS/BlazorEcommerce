@@ -1,8 +1,11 @@
 global using BlazorEcommerce.Server.Data;
 global using BlazorEcommerce.Shared;
 global using Microsoft.EntityFrameworkCore;
+using System.Text;
 using BlazorEcommerce.Server.Services;
 using BlazorEcommerce.Server.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,12 +15,26 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services
+  .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+  .AddJwtBearer(options =>
+  {
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+      ValidateAudience = false,
+      ValidateIssuer = false,
+      ValidateIssuerSigningKey = true
+    };
+  });
 
 var app = builder.Build();
 
@@ -40,6 +57,9 @@ app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseRouting();
 
